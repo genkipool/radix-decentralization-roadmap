@@ -31,6 +31,44 @@ Informe del 3 de noviembre de 2026.
 | Titulares de XRD (3-nov-2026) | **435 605** |
 | RAM de un nodo hoy → objetivo | **16 GB** (requisito oficial) → **4-8 GB** (objetivo, estimación) |
 
+## Estado de las fases
+
+Una fila por tarea de cada fase de la [hoja de ruta](docs/es/08-hoja-de-ruta.md#s8-1). Solo las tareas completadas tienen texto en sus columnas; las demás siguen pendientes. Cada tarea completada enlaza a su informe de progreso, con todo lo que se hizo paso a paso.
+
+| Fase · tarea | Desarrollador | Dificultad | Coste | Estado | Fecha |
+|---|---|---|---|---|---|
+| **[F0.1 · Archivo de Olympia y explorador](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)** | GENKIPOOL | Baja | 0 USD / 0 EUR | Completada | 8-nov-2026 |
+| F0.2 · Grabar el Gateway público | | | | | |
+| F0.3 · Medir disco y RAM de un nodo de mainnet | | | | | |
+| F0.4 · R1 y R2 en Stokenet | | | | | |
+| F0.5 · Prototipo de `radix-lite-indexer` | | | | | |
+| F0.6 · Perfil en `babylon-nodecli` | | | | | |
+| F0.7 · Experimento de historial | | | | | |
+| F1.1 · Índices de historial, NFT, reglas de rol, lockers y emisiones (a-g) | | | | | |
+| F1.2 · Índices para exploradores (h-j) y primera versión de `radix-explorer` | | | | | |
+| F1.3 · Reenvío de transacciones y modo público con límites | | | | | |
+| F1.4 · Caché del indexador y prueba de carga | | | | | |
+| F1.5 · Snapshots de índices | | | | | |
+| F1.6 · R3-R4 en `babylon-node` | | | | | |
+| F1.7 · Convención `api_endpoints` | | | | | |
+| F1.8 · Formato de segmento v1 y espejos públicos | | | | | |
+| F2.1 · Interfaz `LedgerBackend` en Sargon | | | | | |
+| F2.2 · Reenvío de transacciones en Sargon | | | | | |
+| F2.3 · RDT, ROLA, Connector Extension y SDK | | | | | |
+| F2.4 · Correcciones pendientes en clientes | | | | | |
+| F3.1 · N1, N6, N7, N5b y N2-N4 en `babylon-node` | | | | | |
+| F3.2 · R5-R8 con exportar antes de podar y N10 | | | | | |
+| F3.3 · R9: arranque desde snapshot verificado | | | | | |
+| F3.4 · Snapshots de gobernanza (E6) | | | | | |
+| F3.5 · Etapa C0: medición con el historial de mainnet | | | | | |
+| F4.1 · R11: núcleo en Rust (FINAL A) | | | | | |
+| F4.2 · R10: actualización de protocolo | | | | | |
+| F4.3 · Pruebas de Merkle y cliente ligero | | | | | |
+| F4.4 · Diseño de índices verificables | | | | | |
+| F5 · FINAL A: seguir mejorando Babylon | | | | | |
+| F5 · FINAL B: migración a Hyperscale | | | | | |
+| F5 · FINAL C: Xi'an con Scrypto | | | | | |
+
 ## Guía de lectura
 
 | Perfil | Por dónde empezar |
@@ -57,6 +95,7 @@ Informe del 3 de noviembre de 2026.
 - [Capítulo 13: etapa final alternativa, Xi'an con Scrypto](docs/es/13-xian-con-scrypto.md)
 - [Fuentes, metodología y preguntas abiertas](docs/es/fuentes-y-metodologia.md)
 - [Glosario](docs/es/glosario.md)
+- [Progreso · F0.1 Archivo de Olympia y explorador](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)
 
 ## Resumen ejecutivo
 

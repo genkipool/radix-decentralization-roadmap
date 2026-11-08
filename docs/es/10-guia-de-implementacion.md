@@ -313,6 +313,9 @@ const rola = Rola({
 > - **Dificultad:** Baja.
 > - **Esfuerzo y plazo:** semanas (estimación). Urgente.
 
+> [!NOTE]
+> **Estado (8-nov-2026):** completada salvo el sellado con varias firmas y las réplicas en IPFS, BitTorrent y Arweave. El archivo está en Hugging Face y archive.org, funciona en un explorador y se ha verificado contra la génesis de Babylon. Todo el detalle, paso a paso, en el [informe de progreso F0.1](progreso-f0-1-archivo-y-explorador-olympia.md).
+
 1. **Obtener los datos.** Pedir a la Foundation, o a cualquier operador que la conserve, una copia de la base de datos de un nodo de Olympia o de su Gateway (`olympia-gateway.radixdlt.com`, versión 337 759 839). Como alternativa, recorrer sus endpoints de transacciones por cuenta para todas las cuentas mientras siga activo.
 2. **Exportar.**
    - Transacciones en orden, en ficheros JSON Lines o Parquet por bloques de versiones.

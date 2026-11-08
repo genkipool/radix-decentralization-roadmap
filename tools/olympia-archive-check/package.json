@@ -1,0 +1,15 @@
+{
+  "name": "olympia-archive-check",
+  "private": true,
+  "type": "module",
+  "description": "Checks the Radix Olympia archive's final balances against the Babylon genesis.",
+  "scripts": {
+    "genesis": "node genesis-balance-changes.mjs",
+    "archive": "node archive-final-balances.mjs",
+    "compare": "node compare.mjs"
+  },
+  "dependencies": {
+    "hyparquet": "1.32.0",
+    "hyparquet-compressors": "1.1.2"
+  }
+}

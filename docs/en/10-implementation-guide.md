@@ -313,6 +313,9 @@ const rola = Rola({
 > - **Difficulty:** Low.
 > - **Effort and timeline:** weeks (estimate). Urgent.
 
+> [!NOTE]
+> **Status (8 Nov 2026):** completed except for sealing with several signatures and the IPFS, BitTorrent and Arweave replicas. The archive is on Hugging Face and archive.org, works in an explorer and has been verified against the Babylon genesis. Full step-by-step detail in the [F0.1 progress report](progress-f0-1-olympia-archive-and-explorer.md).
+
 1. **Get the data.** Ask the Foundation, or any operator that still has one, for a copy of the database of an Olympia node or of its Gateway (`olympia-gateway.radixdlt.com`, version 337,759,839). Alternatively, walk its per-account transaction endpoints for every account while it is still running.
 2. **Export.**
    - Transactions in order, in JSON Lines or Parquet files chunked by version range.

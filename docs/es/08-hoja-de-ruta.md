@@ -71,6 +71,7 @@ Cada fase indica su objetivo, los pasos en orden, lo que se entrega y cómo se s
 **Objetivo:** que nada se pierda si el Gateway se apaga el 31-dic-2026 y que exista un sustituto probado para lo imprescindible.
 
 1. **Archivo de Olympia** ([10.5](10-guia-de-implementacion.md#s10-5)): obtener una copia, exportar, sellar con varias firmas y publicar en IPFS, BitTorrent y Arweave.
+   - **Estado: completada el 8-nov-2026** (copia, export, publicación en Hugging Face y archive.org, explorador y verificación contra la génesis de Babylon). El sellado con varias firmas y las réplicas en IPFS, BitTorrent y Arweave quedan fuera, por decisión del responsable. Detalle en el [informe de progreso](progreso-f0-1-archivo-y-explorador-olympia.md).
 2. **Grabar el Gateway público:** peticiones y respuestas reales de las rutas del capítulo [2](01-02-situacion-actual.md#s2), con direcciones variadas, para las pruebas de conformidad ([10.1](10-guia-de-implementacion.md#s10-1)). Solo es posible mientras siga activo.
 3. **Medir:** tamaño por column family (`raw_db_size`) y RAM real de un nodo de mainnet, confirmando la medición aportada (~493 GB).
 4. **R1 y R2 en Stokenet:** límites de memoria de RocksDB y perfil de 4 GB, con prueba prolongada.

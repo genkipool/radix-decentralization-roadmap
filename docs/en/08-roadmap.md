@@ -71,6 +71,7 @@ Each phase gives its goal, the steps in order, what is delivered and how to know
 **Goal:** that nothing is lost if the Gateway is switched off on 31 Dec 2026, and that a tested replacement exists for the essentials.
 
 1. **Olympia archive** ([10.5](10-implementation-guide.md#s10-5)): obtain a copy, export, seal with several signatures and publish on IPFS, BitTorrent and Arweave.
+   - **Status: completed on 8 Nov 2026** (copy, export, publication on Hugging Face and archive.org, explorer and verification against the Babylon genesis). Sealing with several signatures and the IPFS, BitTorrent and Arweave replicas are left out, by the maintainer's decision. Details in the [progress report](progress-f0-1-olympia-archive-and-explorer.md).
 2. **Record the public Gateway:** real requests and responses for the chapter [2](01-02-current-situation.md#s2) routes, with varied addresses, for the conformance tests ([10.1](10-implementation-guide.md#s10-1)). This is only possible while it is still running.
 3. **Measure:** per-column-family size (`raw_db_size`) and real RAM of a mainnet node, confirming the contributed measurement (~493 GB).
 4. **R1 and R2 on Stokenet:** RocksDB memory limits and the 4 GB profile, with a long-running test.

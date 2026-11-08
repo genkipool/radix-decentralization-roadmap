@@ -31,6 +31,44 @@ Report dated 3 November 2026.
 | XRD holders (3 Nov 2026) | **435,605** |
 | Node RAM today → target | **16 GB** (official requirement) → **4-8 GB** (target, estimate) |
 
+## Phase completion
+
+One row per task of each phase of the [roadmap](docs/en/08-roadmap.md#s8-1). Only completed tasks have text in their columns; the rest are still pending. Each completed task links to its progress report, with everything that was done step by step.
+
+| Phase · task | Developer | Difficulty | Cost | Status | Date |
+|---|---|---|---|---|---|
+| **[F0.1 · Olympia archive and explorer](docs/en/progress-f0-1-olympia-archive-and-explorer.md)** | GENKIPOOL | Low | 0 USD / 0 EUR | Completed | 8 Nov 2026 |
+| F0.2 · Record the public Gateway | | | | | |
+| F0.3 · Measure disk and RAM of a mainnet node | | | | | |
+| F0.4 · R1 and R2 on Stokenet | | | | | |
+| F0.5 · `radix-lite-indexer` prototype | | | | | |
+| F0.6 · `babylon-nodecli` profile | | | | | |
+| F0.7 · History experiment | | | | | |
+| F1.1 · History, NFT, role-rule, locker and emission indexes (a-g) | | | | | |
+| F1.2 · Explorer indexes (h-j) and first `radix-explorer` release | | | | | |
+| F1.3 · Transaction resubmission and public mode with limits | | | | | |
+| F1.4 · Indexer cache and load test | | | | | |
+| F1.5 · Index snapshots | | | | | |
+| F1.6 · R3-R4 in `babylon-node` | | | | | |
+| F1.7 · `api_endpoints` convention | | | | | |
+| F1.8 · Segment format v1 and public mirrors | | | | | |
+| F2.1 · `LedgerBackend` interface in Sargon | | | | | |
+| F2.2 · Transaction resubmission in Sargon | | | | | |
+| F2.3 · RDT, ROLA, Connector Extension and SDK | | | | | |
+| F2.4 · Pending client fixes | | | | | |
+| F3.1 · N1, N6, N7, N5b and N2-N4 in `babylon-node` | | | | | |
+| F3.2 · R5-R8 with export-then-prune and N10 | | | | | |
+| F3.3 · R9: verified snapshot bootstrap | | | | | |
+| F3.4 · Governance snapshots (E6) | | | | | |
+| F3.5 · Stage C0: measurement with mainnet history | | | | | |
+| F4.1 · R11: core in Rust (FINAL A) | | | | | |
+| F4.2 · R10: protocol update | | | | | |
+| F4.3 · Merkle proofs and light client | | | | | |
+| F4.4 · Verifiable index design | | | | | |
+| F5 · FINAL A: keep improving Babylon | | | | | |
+| F5 · FINAL B: migration to Hyperscale | | | | | |
+| F5 · FINAL C: Xi'an with Scrypto | | | | | |
+
 ## Reading guide
 
 | Profile | Where to start |
@@ -57,6 +95,7 @@ Report dated 3 November 2026.
 - [Chapter 13: alternative final stage, Xi'an with Scrypto](docs/en/13-xian-with-scrypto.md)
 - [Sources, methodology and open questions](docs/en/sources-and-methodology.md)
 - [Glossary](docs/en/glossary.md)
+- [Progress · F0.1 Olympia archive and explorer](docs/en/progress-f0-1-olympia-archive-and-explorer.md)
 
 ## Executive summary
 
