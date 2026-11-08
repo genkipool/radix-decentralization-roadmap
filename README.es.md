@@ -37,7 +37,7 @@ Una fila por tarea de cada fase de la [hoja de ruta](docs/es/08-hoja-de-ruta.md#
 
 | Fase · tarea | Desarrollador | Dificultad | Coste | Estado | Fecha |
 |---|---|---|---|---|---|
-| **[F0.1 · Archivo de Olympia y explorador](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)** | GENKIPOOL | Baja | 0 USD / 0 EUR | Completada | 8-nov-2026 |
+| **[F0.1 · Archivo de Olympia y explorador](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)** | GENKIPOOL | Baja | 0 EUR | Completada | 8-nov-2026 |
 | F0.2 · Grabar el Gateway público | | | | | |
 | F0.3 · Medir disco y RAM de un nodo de mainnet | | | | | |
 | F0.4 · R1 y R2 en Stokenet | | | | | |

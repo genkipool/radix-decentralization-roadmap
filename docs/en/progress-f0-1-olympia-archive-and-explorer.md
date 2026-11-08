@@ -8,7 +8,7 @@
 > - **Status:** completed on 8 Nov 2026.
 > - **Developer:** GENKIPOOL.
 > - **Difficulty:** Low, as section [10.5](10-implementation-guide.md#s10-5) estimated.
-> - **Cost:** 0 USD / 0 EUR. No funding.
+> - **Cost:** 0 USD. No funding.
 
 This document explains, step by step, how task 1 of phase F0 of the [roadmap](08-roadmap.md#s8-1) was completed: rescuing Olympia's history, publishing it and putting it to work in an explorer, so that it no longer depends on the Olympia Gateway, which is already switched off.
 

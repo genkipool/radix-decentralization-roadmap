@@ -8,7 +8,7 @@
 > - **Estado:** completada el 8-nov-2026.
 > - **Desarrollador:** GENKIPOOL.
 > - **Dificultad:** Baja, como estimaba la sección [10.5](10-guia-de-implementacion.md#s10-5).
-> - **Coste:** 0 USD / 0 EUR. Sin financiación.
+> - **Coste:** 0 EUR. Sin financiación.
 
 Este documento cuenta, paso a paso, cómo se ha completado la tarea 1 de la fase F0 de la [hoja de ruta](08-hoja-de-ruta.md#s8-1): rescatar el historial de Olympia, publicarlo y ponerlo en funcionamiento en un explorador, de modo que deje de depender del Gateway de Olympia, que ya está apagado.
 

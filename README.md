@@ -37,7 +37,7 @@ One row per task of each phase of the [roadmap](docs/en/08-roadmap.md#s8-1). Onl
 
 | Phase · task | Developer | Difficulty | Cost | Status | Date |
 |---|---|---|---|---|---|
-| **[F0.1 · Olympia archive and explorer](docs/en/progress-f0-1-olympia-archive-and-explorer.md)** | GENKIPOOL | Low | 0 USD / 0 EUR | Completed | 8 Nov 2026 |
+| **[F0.1 · Olympia archive and explorer](docs/en/progress-f0-1-olympia-archive-and-explorer.md)** | GENKIPOOL | Low | 0 USD | Completed | 8 Nov 2026 |
 | F0.2 · Record the public Gateway | | | | | |
 | F0.3 · Measure disk and RAM of a mainnet node | | | | | |
 | F0.4 · R1 and R2 on Stokenet | | | | | |
