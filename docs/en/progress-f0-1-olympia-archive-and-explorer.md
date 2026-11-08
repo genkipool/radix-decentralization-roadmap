@@ -205,7 +205,7 @@ Two figures could not be looked up per validator, because the archive keeps them
 
 ## 12. How to use the archive to build your own explorer
 
-The archive is **public**: no account, key or permission is needed to read it. Anyone can build their own explorer, an analysis or a tool on top of it.
+The archive is **public** and licensed [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) (public domain) on Hugging Face and archive.org: no account, key or permission is needed to read it, and anyone may use it for any purpose, commercial included, without asking permission or citing the source. It is provided as is, without warranties. Anyone can build their own explorer, an analysis or a tool on top of it.
 
 **Where it is.**
 

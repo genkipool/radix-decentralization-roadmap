@@ -205,7 +205,7 @@ Dos datos no se podían consultar por validador porque el archivo los guarda ord
 
 ## 12. Cómo usar el archivo para crear tu propio explorador
 
-El archivo es **público**: no hace falta cuenta, clave ni permiso para leerlo. Cualquiera puede construir encima su propio explorador, un análisis o una herramienta.
+El archivo es **público** y tiene licencia [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) (dominio público) en Hugging Face y en archive.org: no hace falta cuenta, clave ni permiso para leerlo, y cualquiera puede usarlo para lo que quiera, también con fines comerciales, sin pedir permiso ni citar la fuente. Se entrega tal cual, sin garantías. Encima se puede construir un explorador propio, un análisis o una herramienta.
 
 **Dónde está.**
 
