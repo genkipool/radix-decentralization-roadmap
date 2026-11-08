@@ -10,7 +10,7 @@
 > - **Dificultad:** Baja, como estimaba la sección [10.5](10-guia-de-implementacion.md#s10-5).
 > - **Coste:** 0 EUR. Sin financiación.
 
-Este documento cuenta, paso a paso, cómo se ha completado la tarea 1 de la fase F0 de la [hoja de ruta](08-hoja-de-ruta.md#s8-1): rescatar el historial de Olympia, publicarlo y ponerlo en funcionamiento en un explorador, de modo que deje de depender del Gateway de Olympia, que ya está apagado.
+Este documento cuenta, paso a paso, cómo se ha completado la tarea 1 de la fase F0 de la [hoja de ruta](08-hoja-de-ruta.md#s8-1): rescatar el historial de Olympia, publicarlo y ponerlo en funcionamiento en un explorador, de modo que deje de depender del Gateway de Olympia, un único servicio que puede apagarse en cualquier momento.
 
 ## Índice
 
@@ -24,7 +24,7 @@ Este documento cuenta, paso a paso, cómo se ha completado la tarea 1 de la fase
 8. [Paso 7: índices derivados construidos una sola vez](#paso-7)
 9. [Paso 8: acceso para agentes (MCP) y para la consola](#paso-8)
 10. [Paso 9: rendimiento, seguridad y coste](#paso-9)
-11. [Paso 10: verificación contra la génesis de Babylon](#paso-10)
+11. [Paso 10: verificación del archivo](#paso-10)
 12. [Cómo usar el archivo para crear tu propio explorador](#tu-explorador)
 13. [Cómo reproducirlo](#reproducir)
 
@@ -34,7 +34,7 @@ Este documento cuenta, paso a paso, cómo se ha completado la tarea 1 de la fase
 
 - Olympia fue la red principal de Radix desde julio de 2021 hasta el **28-sep-2023 a las 06:33:34 UTC**, cuando se migró a Babylon.
 - El **estado** de Olympia (saldos, stakes, tokens y validadores) se cargó en la génesis de Babylon, así que los nodos lo tienen. El **historial** de transacciones no: solo existía en el Gateway de Olympia (`olympia-gateway.radixdlt.com`), un único servicio (sección [2.2](01-02-situacion-actual.md#s2-2)).
-- Ese Gateway ya no está en línea. Sin una copia, más de dos años de historial de la red se habrían perdido.
+- Ese Gateway sigue en línea hoy, pero es un único servicio que depende de la Foundation. Si se apagara sin una copia, más de dos años de historial de la red se perderían.
 
 <a id="paso-1"></a>
 
@@ -177,13 +177,27 @@ Dos datos no se podían consultar por validador porque el archivo los guarda ord
 
 <a id="paso-10"></a>
 
-## 11. Paso 10: verificación contra la génesis de Babylon
+## 11. Paso 10: verificación del archivo
 
-**Por qué hacía falta.** El Gateway oficial de Olympia ya no está en línea, así que el archivo no podía contrastarse con él. Pero hay otra fuente oficial e independiente: la **génesis de Babylon** cargó en el ledger el estado final de Olympia. Si el archivo es correcto, el saldo final de cada cuenta en el archivo tiene que ser lo que la génesis ingresó en su cuenta de Babylon.
+El archivo se ha contrastado con dos fuentes oficiales e independientes de quien lo hizo: el **Gateway oficial de Olympia**, que sigue en línea, y la **génesis de Babylon**, que cargó en el ledger el estado final de Olympia.
+
+### Contra el Gateway oficial de Olympia (muestra)
+
+`olympia-gateway.radixdlt.com` sigue respondiendo (Gateway API 1.1.14, congelado en la versión 337.759.839). Sobre una muestra al azar:
+
+| Comprobación | Resultado |
+|---|---|
+| 50 cuentas al azar: número de transacciones (`/account/transactions`) | **50 de 50 iguales** |
+| Las mismas 50 cuentas: XRD libre al terminar Olympia (`/account/balances`) | **50 de 50 iguales** |
+| Las mismas 50 cuentas: qué tokens tenían | **50 de 50 iguales** |
+| Lista de validadores (`/validators`) | **254**, los mismos que el archivo |
+| 20 validadores al azar: XRD en stake | **20 de 20 iguales** |
+
+### Contra la génesis de Babylon (completa)
 
 **Cómo se hizo.**
 
-1. Del Gateway de Babylon se leyeron todos los cambios de saldo de las transacciones de génesis (versiones 1 a 694), con `/stream/transactions` y la opción `balance_changes`: 629.561 cambios en 175.562 cuentas.
+1. Del Gateway de Babylon se leyeron todos los cambios de saldo de las transacciones de génesis (versiones 1 a 647; la primera transacción de usuario es la 670), con `/stream/transactions` y la opción `balance_changes`: 629.555 cambios en 175.560 cuentas.
 2. Del archivo se tomaron los saldos finales (`account_final_balances`), traduciendo cada cuenta a su dirección de Babylon y cada token a su recurso de Babylon con los propios índices del archivo: 583.884 saldos de 901 tokens.
 3. Se compararon cuenta por cuenta y token por token, con 18 decimales.
 4. Las diferencias se analizaron una por una.
@@ -192,14 +206,13 @@ Dos datos no se podían consultar por validador porque el archivo los guarda ord
 
 | Resultado | Saldos | Explicación |
 |---|---|---|
-| Coinciden exactamente, al decimal 18 | **583.430 de 583.884 (99,92 %)** | |
-| Diferencias de XRD explicadas por el XRD en unstake o pendiente de stake | 438 | La génesis devolvió ese XRD como saldo libre; el archivo lo guarda aparte, en los stakes de la cuenta. Sumado, cuadra exactamente |
-| Diferencias en dos tokens con suministro desmesurado (`e` y `test6`) | 14 | Su suministro superaba el máximo que admite Babylon y la migración los reescaló por un factor fijo por token (0,005709 para `e`) |
-| Diferencias de XRD que se compensan entre sí | 4 | Dos cuentas tienen en el archivo 100 y 600 XRD más que en la génesis, y la génesis ingresó exactamente 100 y 600 XRD en dos cuentas que no aparecen en el archivo. El total cuadra |
+| Coinciden exactamente, al decimal 18 | **583.432 de 583.884 (99,92 %)** | |
+| Diferencias de XRD explicadas por el XRD en unstake o pendiente de stake | 438 (todas) | La génesis devolvió ese XRD como saldo libre; el archivo lo guarda aparte, en los stakes de la cuenta. En las 438, la diferencia es exactamente ese importe |
+| Diferencias en dos tokens con suministro desmesurado (`e` y `test6`) | 14 | Su suministro superaba el máximo que admite Babylon y la migración los reescaló por un factor fijo por token (0,005709 para `e`; unos 5,7 × 10⁻¹⁶ para `test6`). Un saldo de 0,0004 `test6` quedó por debajo del decimal 18 y no pasó a Babylon |
 
 **Resultados de los stakes.** La génesis convirtió los stakes en unidades de stake (LSU) de cada validador de Babylon. Emparejando validadores por la clave del nodo (193 validadores), **20.958 de 20.964** posiciones de stake coinciden con una diferencia relativa menor que 10⁻⁹. Quedan 123 posiciones que solo están en el archivo y 29 que solo están en la génesis, pendientes de analizar. Los validadores que cambiaron de clave en Babylon no se pueden comparar por este método.
 
-**Conclusión.** El archivo reproduce el estado final de Olympia que la propia red cargó en Babylon. Todas las diferencias analizadas tienen una explicación que no es un error del archivo.
+**Conclusión.** El archivo coincide con lo que responde el Gateway oficial de Olympia y reproduce el estado final que la propia red cargó en Babylon. Todas las diferencias de saldos tienen una explicación que no es un error del archivo.
 
 <a id="tu-explorador"></a>
 

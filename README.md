@@ -140,8 +140,8 @@ The "Conclusion" section below summarises feasibility and difficulty for each go
 **Olympia is not an obstacle.** Its state was migrated into the Babylon genesis, so nodes already have it. It adds three tasks (section [2.2](docs/en/01-02-current-situation.md#s2-2) describes four considerations; only the second requires no work):
 
 - processing genesis once when building the indexes;
-- **archiving Olympia's history as soon as possible**, because it is not in Babylon and currently depends on a single service. This task is **low** difficulty but **urgent**.
-- explorers accepting both address types (Olympia and Babylon) and showing each history from its source.
+- **archiving Olympia's history as soon as possible**, because it is not in Babylon and depended on a single service. This task is **low** difficulty but **urgent**. **Done in November 2026** ([F0.1](docs/en/progress-f0-1-olympia-archive-and-explorer.md)).
+- explorers accepting both address types (Olympia and Babylon) and showing each history from its source. The Radix Community explorer already does it ([F0.1](docs/en/progress-f0-1-olympia-archive-and-explorer.md)).
 
 **Feasibility and difficulty by goal:**
 
@@ -152,7 +152,7 @@ The "Conclusion" section below summarises feasibility and difficulty for each go
 | Full transaction explorers without the Gateway (dedicated indexes and an open-source reference explorer) | **Yes** | **Medium** | ~1-2 person-months of indexes + ~2-3 for the explorer |
 | Effective decentralisation: many operators, on-ledger discovery, failover and resubmission in clients | **Yes** | **Medium** | ~3-5 person-months in clients (Sargon, wallets, extension and SDK; excluding the RDT and ROLA) |
 | All features inside the node itself (E2), full history and governance snapshots | **Yes** | **High** | ~6-10 person-months in the node + ~4-6 in clients |
-| Verifiable archive of Olympia's history | **Yes** (urgent) | **Low** | Weeks |
+| Verifiable archive of Olympia's history | **Yes**: done in Nov 2026 ([F0.1](docs/en/progress-f0-1-olympia-archive-and-explorer.md)) | **Low** | Weeks |
 | Full history without depending on one operator: export, then prune, with replicated verifiable segments (section [6.5](docs/en/06-recommended-solution.md#s6-5)) | **Yes** | **Medium** | ~5-9 person-months |
 | Nodes with 4-8 GB RAM and ≤ 500 GB disk, still on Java (R1-R9, chapter [9](docs/en/09-lighter-nodes.md#s9)) | **Yes** (estimate: 8 GB achievable, 4 GB plausible; public read nodes are sized to their traffic, section [6.4](docs/en/06-recommended-solution.md#s6-4)) | **Medium** | ~8-14 person-months |
 | Migrating the node core from Java to Rust (R11): enough headroom in 4 GB, including for low-traffic read nodes | **Yes** | **Very high** | ~30-50 person-months |
@@ -251,7 +251,7 @@ This is a technical table: the names of technologies from other networks (Geyser
 | Node operators | Test the reduced-memory profile (R2) and RocksDB settings (R1) on Stokenet | Nov-Dec 2026 | "Data or measurement" template |
 | Developers | Build the light-indexer prototype (section [7.1](docs/en/07-per-repository-changes.md#s7-1)) and record real Gateway responses for conformance tests **while it is still running** | Before 31 Dec 2026 | Pull requests linking the prototype |
 | Developers | Implement the `LedgerBackend` interface in Sargon and failover in the RDT and ROLA (section [10.4](docs/en/10-implementation-guide.md#s10-4)) | 2027 | Pull requests in the affected repositories |
-| Community | Export, seal and replicate the Olympia archive (section [10.5](docs/en/10-implementation-guide.md#s10-5)) | Before the Olympia Gateway is switched off | Notes in `community/` |
+| Community | Seal the Olympia archive with several independent signatures (section [10.5](docs/en/10-implementation-guide.md#s10-5)); the export and its publication are done ([F0.1](docs/en/progress-f0-1-olympia-archive-and-explorer.md)) | When the signers are agreed | Notes in `community/` |
 | Developers | History export experiment: two exporters next to two Stokenet nodes, comparing their segments (section [10.8](docs/en/10-implementation-guide.md#s10-8)) | Nov-Dec 2026 | Pull requests and results in `community/` |
 | Researchers and developers | Stage C0: replay mainnet history and measure how many transactions would touch several shards (section [13.10](docs/en/13-xian-with-scrypto.md#s13-10)) | Jan-Aug 2027 | Pull requests and a report in `community/` |
 | Validators | Publish their access points in the `api_endpoints` metadata (section [10.2](docs/en/10-implementation-guide.md#s10-2)) once read nodes exist | When the indexer exists | — |
@@ -262,7 +262,7 @@ This is a technical table: the names of technologies from other networks (Geyser
 |---|---|---|---|
 | Fund the minimum viable solution (7-12 person-months, estimate) | Before 31 Dec 2026 | This report; team proposals | Conclusion, chapter [6](docs/en/06-recommended-solution.md#s6) |
 | Prioritise the critical subset if the full replacement is not ready in time | Before 31 Dec 2026 | Prototype status | Section [6.3](docs/en/06-recommended-solution.md#s6-3) |
-| Who produces and signs the Olympia archive | As soon as possible | Availability of a copy of its database | Section [2.2](docs/en/01-02-current-situation.md#s2-2) |
+| Who signs the Olympia archive (it is already produced and published: [F0.1](docs/en/progress-f0-1-olympia-archive-and-explorer.md)) | As soon as possible | The archive's SHA-256 checksums | Section [2.2](docs/en/01-02-current-situation.md#s2-2) |
 | Adopt `api_endpoints` as the discovery convention | 2027 | Indexer prototype | Section [10.2](docs/en/10-implementation-guide.md#s10-2) |
 | Incentives for read nodes, paid on Layer 1 | 2027 | Number of volunteer operators | Sections [6.2](docs/en/06-recommended-solution.md#s6-2) and [12.1](docs/en/12-references-other-networks.md#s12-1) |
 | Who pays for storing history segments and how many independent replicas are required | 2027 | Measured segment size ([10.8](docs/en/10-implementation-guide.md#s10-8)) | Section [6.5](docs/en/06-recommended-solution.md#s6-5) |
@@ -314,7 +314,7 @@ flowchart TB
     REG["<b>1. On-ledger registry</b><br/>api_endpoints metadata"]
     READ["<b>2. Read nodes</b><br/>many independent operators (A, B, C…)<br/>full node + light indexer"]
     SELF["<b>Auxiliary services</b> anyone can host<br/>signalling and TURN, Radix Connect and iroh relays,<br/>configurable prices"]
-    ARCH[("Verifiable Olympia archive<br/>IPFS, BitTorrent, Arweave")]
+    ARCH[("Olympia archive<br/>Hugging Face, archive.org")]
     VAL[("Validators<br/>small profile: R1-R4")]
     APPS -->|"read the list"| REG
     APPS -->|"query with failover"| READ

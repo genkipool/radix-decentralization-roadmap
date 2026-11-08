@@ -15,7 +15,7 @@ gantt
     dateFormat YYYY-MM-DD
     axisFormat %b %Y
     section Urgente
-    Archivo de Olympia                       :crit, 2026-11-05, 45d
+    Archivo de Olympia                       :done, 2026-11-05, 4d
     Prototipo del indexador ligero           :crit, 2026-11-05, 55d
     Medir disco y RAM; R1-R2 RocksDB y perfil 4 GB :crit, 2026-11-10, 50d
     Experimento de exportación de historial  :2026-11-15, 45d

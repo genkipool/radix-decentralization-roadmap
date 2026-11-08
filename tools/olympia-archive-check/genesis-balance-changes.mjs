@@ -1,13 +1,14 @@
 /**
  * Every fungible balance change made by the Babylon genesis transactions
- * (state versions 1 to 694), read from the public Babylon Gateway.
+ * (state versions 1 to 647; the first user transaction is 670), read from the
+ * public Babylon Gateway.
  * Writes genesis-changes.jsonl: one {sv, e, r, d} per change
  * (state version, entity, resource, decimal change).
  */
 import { createWriteStream } from 'node:fs';
 
 const GATEWAY = process.env.BABYLON_GATEWAY || 'https://mainnet.radixdlt.com';
-const LAST_GENESIS_VERSION = 700; // genesis ends at 694; the margin is harmless
+const LAST_GENESIS_VERSION = 647; // the genesis transactions are state versions 1 to 647
 const out = createWriteStream('genesis-changes.jsonl');
 
 let cursor;

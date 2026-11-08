@@ -140,8 +140,8 @@ La sección «Conclusión», a continuación, resume la viabilidad y la dificult
 **Olympia no supone un obstáculo.** Su estado se migró a la génesis de Babylon, de modo que los nodos ya lo tienen. Añade tres tareas (la sección [2.2](docs/es/01-02-situacion-actual.md#s2-2) detalla las cuatro consideraciones; solo la segunda no requiere trabajo):
 
 - procesar la génesis una vez al construir los índices;
-- **archivar cuanto antes el historial de Olympia**, que no está en Babylon y depende hoy de un único servicio. Es una tarea de dificultad **baja**, pero **urgente**.
-- que los exploradores acepten las dos direcciones (Olympia y Babylon) y muestren cada historial desde su fuente.
+- **archivar cuanto antes el historial de Olympia**, que no está en Babylon y dependía de un único servicio. Es una tarea de dificultad **baja**, pero **urgente**. **Hecho en noviembre de 2026** ([F0.1](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)).
+- que los exploradores acepten las dos direcciones (Olympia y Babylon) y muestren cada historial desde su fuente. El explorador de Radix Community ya lo hace ([F0.1](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)).
 
 **Viabilidad y dificultad por objetivo:**
 
@@ -152,7 +152,7 @@ La sección «Conclusión», a continuación, resume la viabilidad y la dificult
 | Exploradores de transacciones completos sin el Gateway (índices propios y explorador de referencia de código abierto) | **Sí** | **Media** | ~1-2 personas-mes de índices + ~2-3 de explorador |
 | Descentralización efectiva: muchos operadores, descubrimiento en la cadena, conmutación por error y reenvío en los clientes | **Sí** | **Media** | ~3-5 personas-mes en clientes (Sargon, wallets, extensión y SDK; sin la RDT ni ROLA) |
 | Todas las funciones dentro del propio nodo (E2), historial completo y snapshots de gobernanza | **Sí** | **Alta** | ~6-10 personas-mes en el nodo + ~4-6 en clientes |
-| Archivo verificable del historial de Olympia | **Sí** (urgente) | **Baja** | Semanas |
+| Archivo verificable del historial de Olympia | **Sí**: hecho en nov-2026 ([F0.1](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)) | **Baja** | Semanas |
 | Historial completo sin depender de un operador: exportar antes de podar, con segmentos verificables replicados (sección [6.5](docs/es/06-solucion-recomendada.md#s6-5)) | **Sí** | **Media** | ~5-9 personas-mes |
 | Nodos de 4-8 GB de RAM y ≤ 500 GB de disco, aún con Java (R1-R9, capítulo [9](docs/es/09-nodos-ligeros.md#s9)) | **Sí** (estimación: 8 GB alcanzable, 4 GB plausible; los nodos de lectura públicos se dimensionan según su tráfico, sección [6.4](docs/es/06-solucion-recomendada.md#s6-4)) | **Media** | ~8-14 personas-mes |
 | Migrar el núcleo del nodo de Java a Rust (R11): margen suficiente en 4 GB, también para nodos de lectura de poco tráfico | **Sí** | **Muy alta** | ~30-50 personas-mes |
@@ -251,7 +251,7 @@ Es una tabla técnica: los nombres de tecnologías de otras redes (Geyser, smold
 | Operadores de nodo | Probar en Stokenet el perfil de memoria reducida (R2) y los ajustes de RocksDB (R1) | Nov.-dic. 2026 | Plantilla «Dato o medición» |
 | Desarrolladores | Construir el prototipo del indexador ligero (sección [7.1](docs/es/07-cambios-por-repositorio.md#s7-1)) y grabar respuestas reales del Gateway para las pruebas de conformidad **mientras siga activo** | Antes del 31-dic-2026 | *Pull requests* con enlaces al prototipo |
 | Desarrolladores | Implementar la interfaz `LedgerBackend` en Sargon y la conmutación por error en la RDT y ROLA (sección [10.4](docs/es/10-guia-de-implementacion.md#s10-4)) | 2027 | *Pull requests* en los repositorios afectados |
-| Comunidad | Exportar, sellar y replicar el archivo de Olympia (sección [10.5](docs/es/10-guia-de-implementacion.md#s10-5)) | Antes de que se apague el Gateway de Olympia | Notas en `community/` |
+| Comunidad | Sellar el archivo de Olympia con varias firmas independientes (sección [10.5](docs/es/10-guia-de-implementacion.md#s10-5)); la exportación y su publicación ya están hechas ([F0.1](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)) | Cuando se acuerden los firmantes | Notas en `community/` |
 | Desarrolladores | Experimento de exportación de historial: dos exportadores junto a dos nodos de Stokenet y comparación de sus segmentos (sección [10.8](docs/es/10-guia-de-implementacion.md#s10-8)) | Nov.-dic. 2026 | *Pull requests* y resultados en `community/` |
 | Investigadores y desarrolladores | Etapa C0: reproducir el historial de mainnet y medir cuántas transacciones tocarían varios fragmentos (sección [13.10](docs/es/13-xian-con-scrypto.md#s13-10)) | Ene.-ago. 2027 | *Pull requests* e informe en `community/` |
 | Validadores | Publicar sus puntos de acceso en el metadato `api_endpoints` (sección [10.2](docs/es/10-guia-de-implementacion.md#s10-2)) cuando haya nodos de lectura | Cuando exista el indexador | — |
@@ -262,7 +262,7 @@ Es una tabla técnica: los nombres de tecnologías de otras redes (Geyser, smold
 |---|---|---|---|
 | Financiar la solución mínima viable (7-12 personas-mes, estimación) | Antes del 31-dic-2026 | Este informe; propuestas de equipos | Conclusión, capítulo [6](docs/es/06-solucion-recomendada.md#s6) |
 | Priorizar el subconjunto crítico si el sustituto completo no está listo a tiempo | Antes del 31-dic-2026 | Estado del prototipo | Sección [6.3](docs/es/06-solucion-recomendada.md#s6-3) |
-| Quién genera y firma el archivo de Olympia | Lo antes posible | Disponibilidad de una copia de su base de datos | Sección [2.2](docs/es/01-02-situacion-actual.md#s2-2) |
+| Quién firma el archivo de Olympia (ya está generado y publicado: [F0.1](docs/es/progreso-f0-1-archivo-y-explorador-olympia.md)) | Lo antes posible | Los SHA-256 del archivo | Sección [2.2](docs/es/01-02-situacion-actual.md#s2-2) |
 | Adoptar `api_endpoints` como convención de descubrimiento | 2027 | Prototipo del indexador | Sección [10.2](docs/es/10-guia-de-implementacion.md#s10-2) |
 | Incentivos para nodos de lectura, pagados en la capa 1 | 2027 | Número de operadores voluntarios | Secciones [6.2](docs/es/06-solucion-recomendada.md#s6-2) y [12.1](docs/es/12-referencias-otras-redes.md#s12-1) |
 | Quién paga el almacenamiento de los segmentos de historial y cuántas réplicas independientes se exigen | 2027 | Tamaño medido de los segmentos ([10.8](docs/es/10-guia-de-implementacion.md#s10-8)) | Sección [6.5](docs/es/06-solucion-recomendada.md#s6-5) |
@@ -314,7 +314,7 @@ flowchart TB
     REG["<b>1. Registro en la cadena</b><br/>metadatos api_endpoints"]
     READ["<b>2. Nodos de lectura</b><br/>muchos operadores independientes (A, B, C…)<br/>nodo completo + indexador ligero"]
     SELF["<b>Servicios auxiliares</b> que cualquiera puede alojar<br/>señalización y TURN, relés de Radix Connect e iroh,<br/>precios configurables"]
-    ARCH[("Archivo verificable de Olympia<br/>IPFS, BitTorrent, Arweave")]
+    ARCH[("Archivo de Olympia<br/>Hugging Face, archive.org")]
     VAL[("Validadores<br/>perfil pequeño: R1-R4")]
     APPS -->|"leen la lista"| REG
     APPS -->|"consultan con conmutación por error"| READ

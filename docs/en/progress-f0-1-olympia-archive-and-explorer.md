@@ -10,7 +10,7 @@
 > - **Difficulty:** Low, as section [10.5](10-implementation-guide.md#s10-5) estimated.
 > - **Cost:** 0 USD. No funding.
 
-This document explains, step by step, how task 1 of phase F0 of the [roadmap](08-roadmap.md#s8-1) was completed: rescuing Olympia's history, publishing it and putting it to work in an explorer, so that it no longer depends on the Olympia Gateway, which is already switched off.
+This document explains, step by step, how task 1 of phase F0 of the [roadmap](08-roadmap.md#s8-1) was completed: rescuing Olympia's history, publishing it and putting it to work in an explorer, so that it no longer depends on the Olympia Gateway, a single service that could be switched off at any time.
 
 ## Contents
 
@@ -24,7 +24,7 @@ This document explains, step by step, how task 1 of phase F0 of the [roadmap](08
 8. [Step 7: derived indexes built once](#step-7)
 9. [Step 8: access for agents (MCP) and in the console](#step-8)
 10. [Step 9: performance, security and cost](#step-9)
-11. [Step 10: verification against the Babylon genesis](#step-10)
+11. [Step 10: verification of the archive](#step-10)
 12. [How to use the archive to build your own explorer](#your-explorer)
 13. [How to reproduce it](#reproduce)
 
@@ -34,7 +34,7 @@ This document explains, step by step, how task 1 of phase F0 of the [roadmap](08
 
 - Olympia was the Radix mainnet from July 2021 until **28 Sep 2023 at 06:33:34 UTC**, when it was migrated to Babylon.
 - Olympia's **state** (balances, stakes, tokens and validators) was loaded into the Babylon genesis, so nodes have it. Its transaction **history** was not: it only existed in the Olympia Gateway (`olympia-gateway.radixdlt.com`), a single service (section [2.2](01-02-current-situation.md#s2-2)).
-- That Gateway is no longer online. Without a copy, more than two years of the network's history would have been lost.
+- That Gateway is still online today, but it is a single service that depends on the Foundation. If it were switched off without a copy, more than two years of the network's history would be lost.
 
 <a id="step-1"></a>
 
@@ -177,13 +177,27 @@ Two figures could not be looked up per validator, because the archive keeps them
 
 <a id="step-10"></a>
 
-## 11. Step 10: verification against the Babylon genesis
+## 11. Step 10: verification of the archive
 
-**Why it was needed.** The official Olympia Gateway is no longer online, so the archive could not be checked against it. But there is another official, independent source: the **Babylon genesis** loaded Olympia's final state into the ledger. If the archive is right, each account's final balance in the archive must be what the genesis credited to its Babylon account.
+The archive has been checked against two official sources, independent of whoever made it: the **official Olympia Gateway**, which is still online, and the **Babylon genesis**, which loaded Olympia's final state into the ledger.
+
+### Against the official Olympia Gateway (sample)
+
+`olympia-gateway.radixdlt.com` still answers (Gateway API 1.1.14, frozen at version 337,759,839). On a random sample:
+
+| Check | Result |
+|---|---|
+| 50 random accounts: transaction count (`/account/transactions`) | **50 of 50 equal** |
+| The same 50 accounts: liquid XRD when Olympia ended (`/account/balances`) | **50 of 50 equal** |
+| The same 50 accounts: which tokens they held | **50 of 50 equal** |
+| Validator list (`/validators`) | **254**, the same as the archive |
+| 20 random validators: XRD staked | **20 of 20 equal** |
+
+### Against the Babylon genesis (complete)
 
 **How it was done.**
 
-1. Every balance change of the genesis transactions (versions 1 to 694) was read from the Babylon Gateway, with `/stream/transactions` and the `balance_changes` opt-in: 629,561 changes in 175,562 accounts.
+1. Every balance change of the genesis transactions (versions 1 to 647; the first user transaction is version 670) was read from the Babylon Gateway, with `/stream/transactions` and the `balance_changes` opt-in: 629,555 changes in 175,560 accounts.
 2. The final balances were taken from the archive (`account_final_balances`), translating each account to its Babylon address and each token to its Babylon resource with the archive's own indexes: 583,884 balances of 901 tokens.
 3. They were compared account by account and token by token, to 18 decimals.
 4. The differences were analysed one by one.
@@ -192,14 +206,13 @@ Two figures could not be looked up per validator, because the archive keeps them
 
 | Result | Balances | Explanation |
 |---|---|---|
-| Match exactly, to the 18th decimal | **583,430 of 583,884 (99.92 %)** | |
-| XRD differences explained by XRD being unstaked or pending stake | 438 | The genesis returned that XRD as a liquid balance; the archive keeps it apart, in the account's stakes. Added up, it matches exactly |
-| Differences in two tokens with an absurd supply (`e` and `test6`) | 14 | Their supply exceeded Babylon's maximum and the migration rescaled them by a fixed factor per token (0.005709 for `e`) |
-| XRD differences that cancel out | 4 | Two accounts hold 100 and 600 XRD more in the archive than in the genesis, and the genesis credited exactly 100 and 600 XRD to two accounts that are not in the archive. The total matches |
+| Match exactly, to the 18th decimal | **583,432 of 583,884 (99.92 %)** | |
+| XRD differences explained by XRD being unstaked or pending stake | 438 (all of them) | The genesis returned that XRD as a liquid balance; the archive keeps it apart, in the account's stakes. In all 438, the difference is exactly that amount |
+| Differences in two tokens with an absurd supply (`e` and `test6`) | 14 | Their supply exceeded Babylon's maximum and the migration rescaled them by a fixed factor per token (0.005709 for `e`; about 5.7 × 10⁻¹⁶ for `test6`). One balance of 0.0004 `test6` fell below the 18th decimal and did not carry over to Babylon |
 
 **Stake results.** The genesis turned stakes into stake units (LSU) of each Babylon validator. Matching validators by node key (193 validators), **20,958 of 20,964** stake positions match with a relative difference below 10⁻⁹. 123 positions only in the archive and 29 only in the genesis remain to be analysed. Validators that changed their key on Babylon cannot be compared this way.
 
-**Conclusion.** The archive reproduces the final Olympia state that the network itself loaded into Babylon. Every difference analysed has an explanation that is not an error in the archive.
+**Conclusion.** The archive matches what the official Olympia Gateway answers and reproduces the final state the network itself loaded into Babylon. Every balance difference has an explanation that is not an error in the archive.
 
 <a id="your-explorer"></a>
 

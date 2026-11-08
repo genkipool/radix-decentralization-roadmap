@@ -205,12 +205,15 @@ An explorer is the **most demanding** client: it needs global indexes that neith
 > - **Difficulty:** Low.
 > - **Effort and timeline:** weeks for the archive (estimate); it is urgent, because it must be done before the Olympia Gateway is switched off.
 
+> [!NOTE]
+> **Status (8 Nov 2026):** the archive exists. Olympia's full history is published on Hugging Face and archive.org under CC0, verified against the official Olympia Gateway and against the Babylon genesis, and it works in an explorer that shows both eras. Details in the [F0.1 progress report](progress-f0-1-olympia-archive-and-explorer.md).
+
 ```mermaid
 flowchart LR
     O[("Olympia ledger<br/>frozen on 28 Sep 2023")] -- "migrated state:<br/>balances, stakes, tokens" --> G["Babylon genesis<br/>versions 1 to 647"]
     G --> B[("Babylon ledger<br/>kept by every node")]
     O -- "transaction history<br/>(not in Babylon)" --> OG["Olympia Gateway<br/>single service"]
-    O -. "proposal: export once" .-> AR["Verifiable archive<br/>IPFS, BitTorrent or Arweave"]
+    O -. "exported and verified (Nov 2026)" .-> AR["Public archive<br/>Hugging Face and archive.org"]
     classDef risk fill:#ffd6d6,stroke:#c00,color:#000
     classDef good fill:#d9f7d9,stroke:#080,color:#000
     class OG risk
@@ -240,9 +243,12 @@ Radix had an earlier network, **Olympia**, which was migrated to Babylon on 28 S
      - publish it with its hash on distributed storage (IPFS, BitTorrent or Arweave);
      - add a static index by `rdx1…` address that any explorer can serve as plain files.
    - **Priority P0, because it is urgent:** this must be done before the Foundation's infrastructure is switched off.
+   - **Status (8 Nov 2026):** done. The Olympia Gateway is still online, but its history no longer depends on it: a public, verified copy exists ([F0.1 report](progress-f0-1-olympia-archive-and-explorer.md)).
 4. **Explorers must understand both eras.**
    - An Olympia address (`rdx1…`) maps deterministically to its Babylon account (`account_rdx…`), because both come from the same key. Sargon already does this conversion, so no index is needed.
+   - **The reverse is not direct:** a Babylon account is a hash of the key, so `rdx1…` cannot simply be derived from `account_rdx…`. It needs an index (the archive includes `accounts_by_babylon_address`) or recovering the key from one of the account's signatures on Babylon, which only exists once it has signed a transaction.
    - The reference explorer ([7.16](07-per-repository-changes.md#s7-16)) should accept both addresses, showing Olympia history from the static archive and Babylon history from the nodes.
+   - **Status (8 Nov 2026):** the Radix Community explorer already does this, reading the static archive directly, with no data server of its own ([F0.1 report](progress-f0-1-olympia-archive-and-explorer.md)).
 
 ---
 

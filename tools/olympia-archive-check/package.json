@@ -2,11 +2,12 @@
   "name": "olympia-archive-check",
   "private": true,
   "type": "module",
-  "description": "Checks the Radix Olympia archive's final balances against the Babylon genesis.",
+  "description": "Checks the Radix Olympia archive against the Babylon genesis and the official Olympia Gateway.",
   "scripts": {
     "genesis": "node genesis-balance-changes.mjs",
     "archive": "node archive-final-balances.mjs",
-    "compare": "node compare.mjs"
+    "compare": "node compare.mjs",
+    "official": "node official-gateway-sample.mjs"
   },
   "dependencies": {
     "hyparquet": "1.32.0",

@@ -205,12 +205,15 @@ Un explorador es el cliente **más exigente**: necesita índices globales que ni
 > - **Dificultad:** Baja.
 > - **Esfuerzo y plazo:** semanas para el archivo (estimación); es urgente, porque debe hacerse antes de que se apague el Gateway de Olympia.
 
+> [!NOTE]
+> **Estado (8-nov-2026):** el archivo ya existe. El historial completo de Olympia está publicado en Hugging Face y archive.org con licencia CC0, verificado contra el Gateway oficial de Olympia y contra la génesis de Babylon, y funciona en un explorador que muestra las dos épocas. Detalle en el [informe de progreso F0.1](progreso-f0-1-archivo-y-explorador-olympia.md).
+
 ```mermaid
 flowchart LR
     O[("Ledger de Olympia<br/>congelado el 28-sep-2023")] -- "estado migrado:<br/>saldos, stakes, tokens" --> G["Génesis de Babylon<br/>versiones 1 a 647"]
     G --> B[("Ledger de Babylon<br/>lo guarda cada nodo")]
     O -- "historial de transacciones<br/>(no está en Babylon)" --> OG["Gateway de Olympia<br/>un solo servicio"]
-    O -. "propuesta: exportar una vez" .-> AR["Archivo verificable<br/>IPFS, BitTorrent o Arweave"]
+    O -. "exportado y verificado (nov-2026)" .-> AR["Archivo público<br/>Hugging Face y archive.org"]
     classDef risk fill:#ffd6d6,stroke:#c00,color:#000
     classDef good fill:#d9f7d9,stroke:#080,color:#000
     class OG risk
@@ -240,9 +243,12 @@ Radix tuvo una red anterior, **Olympia**, que se migró a Babylon el 28-sep-2023
      - publicarlo con su hash en almacenamiento distribuido (IPFS, BitTorrent o Arweave);
      - añadir un índice estático por dirección `rdx1…` que cualquier explorador pueda servir como ficheros.
    - **Prioridad P0, por urgencia:** hay que hacerlo antes de que se apague la infraestructura de la Foundation.
+   - **Estado (8-nov-2026):** hecho. El Gateway de Olympia sigue en línea, pero su historial ya no depende de él: hay una copia pública y verificada ([informe F0.1](progreso-f0-1-archivo-y-explorador-olympia.md)).
 4. **Los exploradores deben entender las dos épocas.**
    - Una dirección de Olympia (`rdx1…`) se convierte de forma determinista en su cuenta de Babylon (`account_rdx…`), porque ambas salen de la misma clave. Sargon ya hace esa conversión, así que no hace falta índice.
+   - **El camino inverso no es directo:** una cuenta de Babylon es un hash de la clave, así que de `account_rdx…` no se puede obtener `rdx1…` sin más. Hace falta un índice (el archivo incluye `accounts_by_babylon_address`) o recuperar la clave de alguna firma de la cuenta en Babylon, que solo existe si ya ha firmado alguna transacción.
    - El explorador de referencia ([7.16](07-cambios-por-repositorio.md#s7-16)) debe aceptar ambas direcciones y mostrar el historial de Olympia desde el archivo estático y el de Babylon desde los nodos.
+   - **Estado (8-nov-2026):** el explorador de Radix Community ya lo hace, leyendo el archivo estático directamente, sin servidor de datos propio ([informe F0.1](progreso-f0-1-archivo-y-explorador-olympia.md)).
 
 ---
 
