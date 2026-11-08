@@ -22,7 +22,7 @@ Este documento cuenta, paso a paso, cómo se ha completado la tarea 1 de la fase
 6. [Paso 5: el explorador de Olympia](#paso-5)
 7. [Paso 6: Olympia dentro del explorador de Babylon](#paso-6)
 8. [Paso 7: índices derivados construidos una sola vez](#paso-7)
-9. [Paso 8: acceso para agentes (MCP) y para la consola](#paso-8)
+9. [Paso 8: conversión de direcciones en la consola](#paso-8)
 10. [Paso 9: rendimiento, seguridad y coste](#paso-9)
 11. [Paso 10: verificación del archivo](#paso-10)
 12. [Cómo usar el archivo para crear tu propio explorador](#tu-explorador)
@@ -142,27 +142,7 @@ Dos datos no se podían consultar por validador porque el archivo los guarda ord
 
 <a id="paso-8"></a>
 
-## 9. Paso 8: acceso para agentes (MCP) y para la consola
-
-**MCP.** El servidor MCP de la web tiene 13 herramientas de solo lectura sobre el archivo:
-
-| Herramienta | Qué devuelve |
-|---|---|
-| `olympia_lookup` | Reconoce cualquier identificador de Olympia, o una dirección de Babylon, y responde con lo esencial |
-| `olympia_get_account` | Resumen de una cuenta al terminar Olympia |
-| `olympia_get_account_transactions` | Historial paginado de una cuenta |
-| `olympia_get_account_funds_flow` | Con quién intercambió XRD una cuenta |
-| `olympia_get_account_rewards` | Recompensas de staking diarias de un año |
-| `olympia_get_transaction` | Una transacción completa |
-| `olympia_list_transactions_by_date` | Todas las transacciones de un rango de días |
-| `olympia_list_validators` | Los 254 validadores ordenados por stake, con su porcentaje de la red y su uptime |
-| `olympia_get_validator` | Un validador completo, con su actividad mensual de staking |
-| `olympia_get_validator_delegators` | Todos los delegadores de un validador, paginados |
-| `olympia_get_validator_rewards` | Recompensas diarias de un validador en un año |
-| `olympia_get_token` | Un token y sus mayores poseedores |
-| `olympia_from_babylon` | Qué fue en Olympia una dirección de Babylon: cuenta, token o validador |
-
-`olympia_from_babylon` funciona con **cualquier** cuenta migrada, haya firmado o no alguna transacción en Babylon, porque usa el índice del archivo y no las firmas.
+## 9. Paso 8: conversión de direcciones en la consola
 
 **Consola.** La consola de la web ya permite convertir direcciones de Olympia a Babylon y al revés, y preparar el código QR para importar una cuenta de Olympia en la Radix Wallet.
 
@@ -301,13 +281,11 @@ Los tres ejemplos se han ejecutado contra el archivo publicado, y cada consulta 
 - `services/olympia/` tiene una consulta por cada necesidad del explorador (cuentas, transacciones, validadores, tokens, recompensas y flujo de fondos).
 - `scripts/olympia/` construye los índices derivados del [paso 7](#paso-7), y `services/olympia/data/` contiene el resultado ya calculado.
 
-**Opción 5: sin programar nada, desde el MCP de la web.** Cualquier agente compatible con MCP puede usar las 13 herramientas del [paso 8](#paso-8) en `https://radix-community.genkipool.com/api/mcp`, con un límite de peticiones por IP.
-
 <a id="reproducir"></a>
 
 ## 13. Cómo reproducirlo
 
-- **Explorador y herramientas MCP:** código abierto en el repositorio [genkipool/Radix_Community](https://github.com/genkipool/Radix_Community). Lectura del archivo en `services/olympia/`, rutas en `app/api/olympia/`, interfaz en `features/dashboard/explorador/olympia/`, herramientas MCP en `services/mcp/tools/olympia.ts` e índices derivados en `scripts/olympia/` y `services/olympia/data/`.
+- **Explorador:** código abierto en el repositorio [genkipool/Radix_Community](https://github.com/genkipool/Radix_Community). Lectura del archivo en `services/olympia/`, rutas en `app/api/olympia/`, interfaz en `features/dashboard/explorador/olympia/` e índices derivados en `scripts/olympia/` y `services/olympia/data/`.
 - **Verificación contra la génesis:** los scripts están en [`tools/olympia-archive-check/`](../../tools/olympia-archive-check/README.md) de este repositorio. Solo usan datos públicos: el Gateway de Babylon y el archivo en Hugging Face.
 
 ---
