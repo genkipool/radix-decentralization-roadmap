@@ -65,6 +65,7 @@ Este documento cuenta, paso a paso, cómo se ha completado la tarea 1 de la fase
 | `account_tx_detail` | cuenta y versión | Historial de cada cuenta, del más nuevo al más antiguo |
 | `operations_by_account`, `account_balance_changes` | cuenta y versión | Acciones y cambios de saldo de cada cuenta |
 | `account_final_balances`, `account_final_stakes` | cuenta | Lo que tenía cada cuenta al terminar Olympia |
+| `account_stake_history`, `validator_stake_history` | cuenta o validador, y versión | El stake de cada cuenta y los totales de cada validador a lo largo del tiempo, con el rango de versiones en que estuvo vigente cada fila: el stake de una cuenta en cualquier momento de Olympia (añadidos el 8-nov-2026) |
 | `account_staking_rewards_daily` | cuenta y día | Recompensas de staking por día y validador |
 | `tx_by_id`, `user_tx_by_version`, `operations_by_version`, `balance_changes_by_version`, `raw_user_tx_by_version` | id o versión | Una transacción completa |
 | `resources_by_rri`, `resources_by_babylon_address`, `final_balances_by_resource` | token | Datos de cada token y sus poseedores |
@@ -169,11 +170,10 @@ Dos datos no se podían consultar por validador porque el archivo los guarda ord
 
 ## 10. Paso 9: rendimiento, seguridad y coste
 
-- **Coste de infraestructura nulo.** El archivo lo sirven Hugging Face y archive.org; la web no tiene base de datos de Olympia ni gasta comandos de Redis en Olympia.
+- **Coste de infraestructura nulo.** El archivo lo sirven Hugging Face y archive.org; la web no tiene base de datos de Olympia.
 - **Caché.** Respuestas inmutables en la CDN; en el servidor, el pie de cada fichero y los catálogos (tokens y validadores) se leen una vez por instancia.
 - **Límite de peticiones.** Las rutas `/api/olympia/*` admiten 300 peticiones por minuto e IP. El límite cuenta primero en memoria, así que una avalancha de peticiones no gasta Redis.
 - **Validación de entradas.** Cada ruta valida el formato de lo que recibe (direcciones, ids, años y fechas) antes de leer nada.
-- **Pruebas.** 62 tests automáticos cubren el explorador y las herramientas de Olympia, y cada herramienta MCP se ha probado contra el servidor real.
 
 <a id="paso-10"></a>
 
@@ -192,6 +192,7 @@ El archivo se ha contrastado con dos fuentes oficiales e independientes de quien
 | Las mismas 50 cuentas: qué tokens tenían | **50 de 50 iguales** |
 | Lista de validadores (`/validators`) | **254**, los mismos que el archivo |
 | 20 validadores al azar: XRD en stake | **20 de 20 iguales** |
+| 45 casos de cuenta en un momento pasado (35 en una versión al azar, 10 al terminar un día), con `at_state_identifier`: saldos, stake, stake pendiente y unstake por validador | **45 de 45 iguales**: saldos hasta la última unidad, stakes hasta 10⁻¹⁸ y cada día en la misma versión. Incluye las 3 cuentas con más historial y las 2 con más movimientos de stake |
 
 ### Contra la génesis de Babylon (completa)
 
@@ -237,6 +238,7 @@ Cada fichero se descarga en `https://huggingface.co/datasets/Genkipool/radix-oly
 - Los importes están en unidades de 10⁻¹⁸ y guardados como texto: divide entre 10¹⁸ para tener XRD o tokens.
 - El id de transacción es **texto hexadecimal** en `tx_by_id`, pero **binario** en `account_tx_detail`.
 - Las cuentas se buscan por su dirección (`rdx1…`) en `accounts_by_address`, que da el `account_id` que usan los demás índices.
+- **Una cuenta en una fecha** (lo que el Gateway oficial da con `at_state_identifier`): el saldo de cada token en la versión V es el `balance_after` de su último cambio con `state_version <= V` en `account_balance_changes`. El stake son las filas de `account_stake_history` cuyo rango `[from_state_version, to_state_version]` contiene V, valoradas con la fila de `validator_stake_history` de su validador que también contiene V: XRD = unidades × `total_xrd_staked` / (`total_stake_units` + `total_prepared_unstake_units`). Para un día, usa la última versión de ese día (columnas `state_version` y `round_timestamp` de `ledger_transactions`).
 
 **Opción 1: SQL con DuckDB** (desde la línea de comandos o desde Python; en Python hace falta además el paquete `pytz` para las fechas):
 

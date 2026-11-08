@@ -65,6 +65,7 @@ This document explains, step by step, how task 1 of phase F0 of the [roadmap](08
 | `account_tx_detail` | account and version | Each account's history, newest first |
 | `operations_by_account`, `account_balance_changes` | account and version | Each account's actions and balance changes |
 | `account_final_balances`, `account_final_stakes` | account | What each account held when Olympia ended |
+| `account_stake_history`, `validator_stake_history` | account or validator, and version | Each account's stake and each validator's totals over time, with the range of versions each row was in effect: an account's stake at any point of Olympia (added on 8 Nov 2026) |
 | `account_staking_rewards_daily` | account and day | Staking rewards per day and validator |
 | `tx_by_id`, `user_tx_by_version`, `operations_by_version`, `balance_changes_by_version`, `raw_user_tx_by_version` | id or version | A full transaction |
 | `resources_by_rri`, `resources_by_babylon_address`, `final_balances_by_resource` | token | Each token's data and its holders |
@@ -169,11 +170,10 @@ Two figures could not be looked up per validator, because the archive keeps them
 
 ## 10. Step 9: performance, security and cost
 
-- **Zero infrastructure cost.** Hugging Face and archive.org serve the archive; the site has no Olympia database and spends no Redis commands on Olympia.
+- **Zero infrastructure cost.** Hugging Face and archive.org serve the archive; the site has no Olympia database.
 - **Caching.** Immutable responses on the CDN; on the server, each file's footer and the token and validator catalogs are read once per instance.
 - **Rate limit.** The `/api/olympia/*` routes accept 300 requests per minute per IP. The limiter counts in memory first, so a flood of requests does not spend Redis.
 - **Input validation.** Every route checks the format of what it receives (addresses, ids, years and dates) before reading anything.
-- **Testing.** 62 automated tests cover the Olympia explorer and tools, and every MCP tool was tried against the running server.
 
 <a id="step-10"></a>
 
@@ -192,6 +192,7 @@ The archive has been checked against two official sources, independent of whoeve
 | The same 50 accounts: which tokens they held | **50 of 50 equal** |
 | Validator list (`/validators`) | **254**, the same as the archive |
 | 20 random validators: XRD staked | **20 of 20 equal** |
+| 45 cases of an account at a past point (35 at a random version, 10 at the end of a day), with `at_state_identifier`: balances, stake, pending stake and unstaking per validator | **45 of 45 equal**: balances to the last unit, stakes to 10⁻¹⁸ and every day at the same version. Includes the 3 accounts with the longest history and the 2 with the most stake movements |
 
 ### Against the Babylon genesis (complete)
 
@@ -237,6 +238,7 @@ Each file downloads from `https://huggingface.co/datasets/Genkipool/radix-olympi
 - Amounts are in units of 10⁻¹⁸ and stored as text: divide by 10¹⁸ to get XRD or tokens.
 - The transaction id is **hex text** in `tx_by_id`, but **binary** in `account_tx_detail`.
 - Accounts are looked up by their address (`rdx1…`) in `accounts_by_address`, which gives the `account_id` the other indexes use.
+- **An account on a date** (what the official Gateway gives with `at_state_identifier`): each token's balance at version V is the `balance_after` of its last change with `state_version <= V` in `account_balance_changes`. The stake is the `account_stake_history` rows whose range `[from_state_version, to_state_version]` contains V, valued with the `validator_stake_history` row of their validator that also contains V: XRD = units × `total_xrd_staked` / (`total_stake_units` + `total_prepared_unstake_units`). For a day, use that day's last version (`state_version` and `round_timestamp` columns of `ledger_transactions`).
 
 **Option 1: SQL with DuckDB** (from the command line or from Python; Python also needs the `pytz` package for timestamps):
 
